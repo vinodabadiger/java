@@ -13,5 +13,20 @@ agent any
                 sh "docker build -t java:1 . "
             }
         }
+
+
+          stage('tag'){
+            steps{
+                sh "docker tag java:1 vinoda32/java:1"
+            }
+        }
+
+        stage('push'){
+            steps{
+                withDockerRegistry(credentialsId: 'docker-cred', url: 'https://index.docker.io/v1/') {
+                sh "docker push vinoda32/java:1"
+                }
+            }
+        }
     }
 }
