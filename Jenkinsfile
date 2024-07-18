@@ -39,12 +39,12 @@ agent any
                                 verbose: true ,
                                     transfers: [
                                         sshTransfer(
-                                            execCommand: 'ls', 
+                                            execCommand: 'docker images', 
                                             execTimeout: 120000, 
                                         ),
 
                                         sshTransfer(
-                                            execCommand: 'pwd', 
+                                            execCommand: 'docker ps -a', 
                                             execTimeout: 120000, 
                                         )
                                     ], 
