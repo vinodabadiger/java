@@ -28,5 +28,29 @@ agent any
                 }
             }
         }
+
+
+        sshPublisher(
+            publishers: [
+                sshPublisherDesc(
+                    configName: 'production', 
+                     verbose: true ,
+                    transfers: [
+                        sshTransfer(
+                            execCommand: 'ls', 
+                            execTimeout: 120000, 
+                        )
+
+                         sshTransfer(
+                            execCommand: 'pwd', 
+                            execTimeout: 120000, 
+                        )
+                    ], 
+                            usePromotionTimestamp: false, 
+                            useWorkspaceInPromotion: false, 
+                            
+                )
+            ]
+        )
     }
 }
