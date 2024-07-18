@@ -8,9 +8,9 @@ agent any
             }
         }
 
-        stage('build'){
+        stage("build"){
             steps{
-                docker build -t java:1 .
+                docker build -t java:1 . 
             }
         }
     }
