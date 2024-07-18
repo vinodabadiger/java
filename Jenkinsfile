@@ -29,28 +29,33 @@ agent any
             }
         }
 
+        stage('ssh'){
+            steps{
+                script {
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: 'production', 
+                                verbose: true ,
+                                    transfers: [
+                                        sshTransfer(
+                                            execCommand: 'ls', 
+                                            execTimeout: 120000, 
+                                        ),
 
-        sshPublisher(
-            publishers: [
-                sshPublisherDesc(
-                    configName: 'production', 
-                     verbose: true ,
-                    transfers: [
-                        sshTransfer(
-                            execCommand: 'ls', 
-                            execTimeout: 120000, 
-                        ),
-
-                         sshTransfer(
-                            execCommand: 'pwd', 
-                            execTimeout: 120000, 
-                        )
-                    ], 
-                            usePromotionTimestamp: false, 
-                            useWorkspaceInPromotion: false, 
+                                        sshTransfer(
+                                            execCommand: 'pwd', 
+                                            execTimeout: 120000, 
+                                        )
+                                    ], 
+                                        usePromotionTimestamp: false, 
+                                        useWorkspaceInPromotion: false, 
                             
-                )
-            ]
-        )
+                            )
+                        ]
+                    )
+                }
+            }
+        }
     }
 }
