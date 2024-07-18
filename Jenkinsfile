@@ -44,7 +44,12 @@ agent any
                                         ),
 
                                         sshTransfer(
-                                            execCommand: 'docker ps -a', 
+                                            execCommand: 'docker run -d -p 8080:8080 vinod32/java:1', 
+                                            execTimeout: 120000, 
+                                        ),
+
+                                        sshTransfer(
+                                            execCommand: 'docker ps', 
                                             execTimeout: 120000, 
                                         )
                                     ], 
