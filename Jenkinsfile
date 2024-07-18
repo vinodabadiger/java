@@ -39,7 +39,7 @@ agent any
                         sshTransfer(
                             execCommand: 'ls', 
                             execTimeout: 120000, 
-                        )
+                        ),
 
                          sshTransfer(
                             execCommand: 'pwd', 
