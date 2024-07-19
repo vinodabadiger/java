@@ -1,5 +1,9 @@
+def img
 pipeline{
 agent any
+environment{
+    registry="vinoda32/java"
+}
 
     stages{
         stage('checkout'){
@@ -10,21 +14,19 @@ agent any
 
         stage('build'){
             steps{
-                sh "docker build -t java:1 . "
-            }
-        }
-
-
-          stage('tag'){
-            steps{
-                sh "docker tag java:1 vinoda32/java:1"
+                script{
+                    img = registry + ":${env.BUILD_ID}"
+                    print "${img}"
+                    sh "docker build -t $img ."
+                }
+                
             }
         }
 
         stage('push'){
             steps{
                 withDockerRegistry(credentialsId: 'docker-cred', url: 'https://index.docker.io/v1/') {
-                sh "docker push vinoda32/java:1"
+                sh "docker push $img"
                 }
             }
         }
@@ -44,14 +46,14 @@ agent any
                                         ),
 
                                         sshTransfer(
-                                            execCommand: 'docker run -d -p 8080:8080 vinod32/java:1', 
+                                            execCommand: 'docker ps', 
                                             execTimeout: 120000, 
                                         ),
 
-                                        sshTransfer(
-                                            execCommand: 'docker ps', 
-                                            execTimeout: 120000, 
-                                        )
+                                        // sshTransfer(
+                                        //     execCommand: 'docker stop java ', 
+                                        //     execTimeout: 120000, 
+                                        // )
                                     ], 
                                         usePromotionTimestamp: false, 
                                         useWorkspaceInPromotion: false, 
@@ -61,6 +63,13 @@ agent any
                     )
                 }
             }
+        
         }
+
+            stage('cleanup'){
+                steps{
+                    sh "docker rmi $img "
+                }
+            }
     }
 }
