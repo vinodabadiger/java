@@ -10,20 +10,20 @@ pipeline {
 
         stage('build'){
             steps{
-               sh "docker build -t java:1 ."
+               sh "docker build -t java:2 ."
             }
         }
 
          stage('tag'){
             steps{
-               sh "docker tag java:1 vinoda32/java:2"
+               sh "docker tag java:2 vinoda32/java:3"
             }
         }
 
         stage('push'){
             steps{
                 withDockerRegistry(credentialsId: 'docker-cred', url: 'https://index.docker.io/v1/') {
-                    sh "docker push vinoda32/java:2"
+                    sh "docker push vinoda32/java:3"
                 }
             }
         }
@@ -47,23 +47,23 @@ pipeline {
                                             execTimeout: 120000, 
                                         ),
 
-                                        // sshTransfer( 
-                                        //     execCommand: 'docker pull vinoda32/java:2', 
-                                        //     execTimeout: 120000, 
-                                        // ),
-
-                                        // sshTransfer( 
-                                        //     execCommand: 'docker run -d -p 8080:8080 vinoda32/java:2', 
-                                        //     execTimeout: 120000, 
-                                        // ),
+                                        sshTransfer( 
+                                            execCommand: 'docker pull vinoda32/java:3', 
+                                            execTimeout: 120000, 
+                                        ),
 
                                         sshTransfer( 
-                                            execCommand: 'docker rm vinoda32/java:2', 
+                                            execCommand: 'docker run -d -p 8080:8080 vinoda32/java:3', 
+                                            execTimeout: 120000, 
+                                        ),
+
+                                        sshTransfer( 
+                                            execCommand: 'docker rm vinoda32/java:3', 
                                             execTimeout: 120000, 
                                         ),
 
                                          sshTransfer( 
-                                            execCommand: 'docker rmi vinoda32/java:2', 
+                                            execCommand: 'docker rmi vinoda32/java:3', 
                                             execTimeout: 120000, 
                                         )
                                     ], 
