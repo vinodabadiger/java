@@ -4,7 +4,7 @@ pipeline {
     stages{
         stage('checkout'){
             steps{
-               sh 'git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/vinodabadiger/java.git''
+               sh "git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/vinodabadiger/java.git'"
             }
         }
 
