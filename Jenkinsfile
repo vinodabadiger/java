@@ -47,18 +47,28 @@ pipeline {
                                             execTimeout: 120000, 
                                         ),
 
-                                         sshTransfer( 
+                                        sshTransfer( 
                                             execCommand: 'docker pull vinoda32/java:2', 
                                             execTimeout: 120000, 
                                         ),
 
-                                          sshTransfer( 
+                                        sshTransfer( 
                                             execCommand: 'docker run -d -p 8080:8080 vinoda32/java:2', 
                                             execTimeout: 120000, 
                                         ),
+
+                                        sshTransfer( 
+                                            execCommand: 'docker rm vinoda32/java:2', 
+                                            execTimeout: 120000, 
+                                        ),
+
+                                         sshTransfer( 
+                                            execCommand: 'docker rmi vinoda32/java:2', 
+                                            execTimeout: 120000, 
+                                        )
                                     ], 
-                                            usePromotionTimestamp: false, 
-                                            useWorkspaceInPromotion: false, 
+                                        usePromotionTimestamp: false, 
+                                        useWorkspaceInPromotion: false, 
                                             
                             )
                         ]
